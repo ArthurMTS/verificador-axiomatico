@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+body, input, button {
+  font-family: sans-serif;
+}
+
+#header {
+  position: fixed;
+  width: 100%;
+  background-color: #353545;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  border-bottom: 2px solid #dd0055;
+  z-index: 10;
+}
+
+#header span {
+  color: #dd0055;
+}
+
+#header h1 {
+  color: #F7F7F7;
+}
+
+#header ul {
+  display: flex;
+  flex-direction: row;
+}
+
+#header li {
+  list-style-type: none;
+}
+
+#header a {
+  font-size: 20px;
+  display: block;
+  text-decoration: none;
+  color: #EEE;
+  padding: 20px;
+  transition: all .2s;
+}
+
+#header a:hover {
+  background-color: #dd0055;
+  color: #F7F7F7;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+section {
+  height: 100vh;
+  background-color: #252535;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section h2 {
+  font-size: 30px;
+  color: #dd0055;
+  margin-top: 100px;
+  border-bottom: 2px dashed #dd0055;
+}
+
+#formula {
+  margin-top: 20px;
+  width: 70vw;
+  border: 5px solid #dd0055;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#formula #submitBtn {
+  position: absolute;
+  text-align: center;
+  bottom: -70px;
+  padding: 10px;
+  font-size: 20px;
+  background-color: #004bbd;
+  border: none;
+  border-radius: 5px;
+  color: #EEE;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+#formula #submitBtn:hover {
+  transform: scale(1.1);
+}
+
+#formula #lineBtn {
+  position: absolute;
+  top: 0;
+  right: -70px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+#formula #lineBtn:hover {
+  transform: scale(1.3);
+}
+
+#footer {
+  background-color: #353545;
+  border-top: 2px solid #dd0055;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+}
+
+#footer p {
+  font-size: 20px;
+  color: #F7F7F7;
+  line-height: 1.5em;
+}
+
+.input {
+  margin: 0 5px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.excluir {
+  transition: all .2s;
+}
+
+.excluir:hover {
+  transform: rotate(20deg);
+}
