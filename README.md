@@ -2,6 +2,8 @@
 
 Verificador axiomático feito como um trabalho para a cadeira de Lógica da UFC campus de Russas.
 
+- [Demonstração ao vivo](https://arthurmts.github.io/verificador-axiomatico/).
+
 ## Como instalar
 - Baixar o código do github usando `git clone https://github.com/ArthurMTS/verificador-axiomatico.git`.
 - Entrar na pasta do projeto e abrir o arquivo `index.html`.
