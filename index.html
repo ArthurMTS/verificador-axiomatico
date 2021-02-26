@@ -23,9 +23,35 @@
         <img id="lineBtn" src="./assets/plus-circle.svg" alt="Plus icon">
         <button id="submitBtn">Verificar</button>
       </form>
+      <strong id="resultado"></strong>
     </section>
     <section id="section-como-usar">
       <h2>Como usar ⚠️</h2>
+      <ul id="como-usar">
+        <li>Clique no botão de (+) para adicionar uma nova linha a sua fórmula.</li>
+        <li>Você pode excluir uma linha clicando no [x] na frente da linha.</li>
+        <li>Cada linha tem 3 colunas (inputs):</li>
+        <ol>
+          <li>No input "Instância" você fornece uma intância de axioma ou o resultado de um Modus Ponens.</li>
+          <li>No input "Axioma" você fornece um axioma ou a string MP caso queira realiar Modus Ponens.</li>
+          <li>No input "Substituição" vocÊ fornece a substituição para sua instânciação ou as linhas para MP.</li>
+        </ol>
+        <li>Depois que terminar de colocar a sua fórmula é só clicar em "Verificar" logo abaixo :)</li>
+      </ul>
+      <div id="obs">
+        <h3>Observações</h3>
+        <ol>
+          <li>Sempre que fornecer uma instância ou substituição, você deve fornecer com todos os parentêses corretamente colocados, inclusive os parentêses mais externos.</li>
+          <li>Pare fornecer um axioma, basta colocar "a" e o número do axioma. Ex.: A1, A2, A11, etc.</li>
+          <li>Caso seja um Modus Ponens, basta apenas escrever a string "MP" no input de "Axioma".</li>
+          <li>Para fornecer a substituição, você deve colocar o átomo que está sendo substituido, um sinal de igual e o valor da substituição e todas a substituições devem ser separadas por um ponto-e-vírgula ";". Ex: p=a;q=(a>a)</li>
+          <li>Os simbólos proposicionais utilizados são ">" (implicação), "&" (conjunção), "v" (disjunção) e "¬" (negação).</li>
+        </ol>
+      </div>
+      <div id="exemplo">
+        <h3>Exemplo de utilização</h3>
+        <img src="./assets/exemplo.PNG" alt="Exemplo">
+      </div>
     </section>
     <section id="section-regras">
       <h2>Regras do método axiomático 📜</h2>
