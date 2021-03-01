@@ -26,34 +26,46 @@ function verificarFormulas() {
     instancia = formatarString(instancia);
     substituicao = formatarString(substituicao);
 
+    if (!corretudeFormula(instancia)) return false;
+
     if (axioma === 'mp') {
       const [ primeiro, segundo ] = substituicao.split(',');
 
-      if (!primeiro || !segundo) return;
+      if (!primeiro || !segundo) return false;
+
+      if (primeiro - 1 >= i || segundo - 1 >= i) return false;
+
+      let primeiroElemento;
+      let segundoElemento;
 
       try {
-        let primeiroElemento = instancias[primeiro - 1].value;
-        let segundoElemento = instancias[segundo - 1].value;
+        primeiroElemento = instancias[primeiro - 1].value;
+        segundoElemento = instancias[segundo - 1].value;
         primeiroElemento = formatarString(primeiroElemento);
         segundoElemento = formatarString(segundoElemento);
-
-        let resultadoMP = modusPonens(primeiroElemento, segundoElemento);
-        
-        if (resultadoMP !== instancia) {
-          alert(`Modus Ponens entre (${primeiroElemento}) e (${segundoElemento}) resultou em (${resultadoMP}) que é diferente de (${instancia}) que foi passada.`);
-          console.log(false);
-          return false;
-        }
+      
       } catch(err) {
         console.log(err);
         return false;
       }
 
+      let resultadoMP = modusPonens(primeiroElemento, segundoElemento);
+
+      if (!corretudeFormula(resultadoMP)) return false;
+
+      if (instancia !== resultadoMP) {
+        alert(`Modus Ponens entre [ ${primeiroElemento} ] e [ ${segundoElemento} ] resultou em [ ${resultadoMP} ] que é diferente de [ ${instancia} ] que foi passado.`);
+        console.log(false);
+        return false;
+      }
+
     } else {
       const axiomaInstanciado = instanciarAxioma(axioma, substituicao);
+
+      if (!corretudeFormula(axiomaInstanciado)) return false;
       
       if(instancia !== axiomaInstanciado) {
-        alert(`Instânciação do axioma (${axioma}) com a substituição (${substituicao}) resultou em (${axiomaInstanciado}), que é diferente da (${instancia}) passada.`);
+        alert(`Instânciação do axioma [ ${axioma} ] com a substituição [ ${substituicao} ] resultou em [ ${axiomaInstanciado} ], que é diferente de [ ${instancia} ] passado.`);
         console.log(false);
         return false;
       }
@@ -63,33 +75,79 @@ function verificarFormulas() {
   return true;
 }
 
-function instanciarAxioma(axioma, substituicao) {
- try {
-  axioma = axiomas[axioma];
-  substituicao = substituicao.split(';');
+function corretudeFormula(formula) {
+  const pilha = formula.split('');
 
-  substituicao.forEach(sub => {
-    const [ atomo, valor ] = sub.split('=');
-    axioma = axioma.replaceAll(`${atomo}`, `${valor}`);
-  });
+  let parenteses = 0;
+  let next;
 
-  console.log(axioma);
+  for (let i = 0; i < pilha.length; i++) {
+    next = pilha[i + 1];
 
-  return axioma;
- } catch (err) {
-  return false;
- }
+    switch(pilha[i]) {
+      case '(':
+        parenteses++;
+        if (next === ')' ||
+            next === '>' ||
+            next === '&' ||
+            next === 'v') return false;
+        break;
+      case ')':
+        parenteses--;
+        if (i === pilha.length - 1) break;
+        if (next === '(' ||
+            next.charCodeAt(0) >= 97 &&
+            next.charCodeAt(0) <= 122) return false;
+        break;
+      case '>':
+      case '&':
+      case 'v':
+        if (next === ')' ||
+            next === '>' ||
+            next === '&' ||
+            next === 'v') return false;
+        break;
+      default:
+        if (next === '(' ||
+            next.charCodeAt(0) >= 97 &&
+            next.charCodeAt(0) <= 122) return false;
+        break;
+    }
+  }
+
+  if (parenteses != 0) return false;
+
+  return true;
 }
 
-function modusPonens(instancia1, instancia2) {
-  console.log(instancia1, instancia2);
+function instanciarAxioma(axioma, substituicao) {
+  try {
+    axioma = axiomas[axioma];
+    substituicao = substituicao.split(';');
+
+    substituicao.forEach(sub => {
+      const [ atomo, valor ] = sub.split('=');
+      axioma = axioma.replaceAll(`${atomo}`, `${valor}`);
+    });
+
+    console.log(axioma);
+
+    return axioma;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
+function modusPonens(primeiroElemento, segundoElemento) {
+  console.log(primeiroElemento, segundoElemento);
 
   let result;
 
-  if (instancia1.length > instancia2.length) {
-    result = instancia1.replace(instancia2, '');
+  if (primeiroElemento.length > segundoElemento.length) {
+    result = primeiroElemento.replace(segundoElemento, '');
   } else {
-    result = instancia2.replace(instancia1, '');
+    result = segundoElemento.replace(primeiroElemento, '');
   }
 
   result = result.slice(2, result.length - 1);
