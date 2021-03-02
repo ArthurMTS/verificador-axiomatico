@@ -1,0 +1,25 @@
+{
+  "name": "verificador-axiomatico",
+  "version": "1.0.0",
+  "description": "Verificador axiomático feito como um trabalho para a cadeira de Lógica da UFC campus de Russas.",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --progress --watch --config webpack.config.js",
+    "build": "webpack --progress --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArthurMTS/verificador-axiomatico.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArthurMTS/verificador-axiomatico/issues"
+  },
+  "homepage": "https://github.com/ArthurMTS/verificador-axiomatico#readme",
+  "devDependencies": {
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
+  }
+}

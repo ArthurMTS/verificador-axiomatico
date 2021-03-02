@@ -23,8 +23,8 @@ function verificarFormulas() {
     let instancia = instancias[i].value;
     let substituicao = substituicoes[i].value;
     axioma = formatarString(axioma);
-    instancia = formatarString(instancia);
-    substituicao = formatarString(substituicao);
+    instancia = instancia.replaceAll(' ','');
+    substituicao = substituicao.replaceAll(' ','');
 
     if (!corretudeFormula(instancia)) return false;
 
@@ -76,15 +76,15 @@ function verificarFormulas() {
 }
 
 function corretudeFormula(formula) {
-  const pilha = formula.split('');
+  const elementos = formula.split('');
 
   let parenteses = 0;
   let next;
 
-  for (let i = 0; i < pilha.length; i++) {
-    next = pilha[i + 1];
+  for (let i = 0; i < elementos.length; i++) {
+    next = elementos[i + 1];
 
-    switch(pilha[i]) {
+    switch(elementos[i]) {
       case '(':
         parenteses++;
         if (next === ')' ||
@@ -94,8 +94,8 @@ function corretudeFormula(formula) {
         break;
       case ')':
         parenteses--;
-        if (i === pilha.length - 1) break;
-        if (next === '(' ||
+        if (i === elementos.length - 1) break;
+        else if (next === '(' ||
             next.charCodeAt(0) >= 97 &&
             next.charCodeAt(0) <= 122) return false;
         break;
@@ -108,7 +108,9 @@ function corretudeFormula(formula) {
             next === 'v') return false;
         break;
       default:
-        if (next === '(' ||
+        if (elementos[i].charCodeAt(0) < 97 ||
+            elementos[i].charCodeAt(0) > 122) return false; 
+        else if (next === '(' ||
             next.charCodeAt(0) >= 97 &&
             next.charCodeAt(0) <= 122) return false;
         break;
@@ -157,80 +159,8 @@ function modusPonens(primeiroElemento, segundoElemento) {
   return result;
 }
 
-function addLine() {
-  const formula = document.querySelector('#formula');
-  formula.classList.remove('errado');
-  formula.classList.remove('correto');
-  const result = document.querySelector('#resultado');
-  result.textContent = '';
-
-  const line = document.createElement('div');
-  line.style.display = 'flex';
-  line.style.marginTop = '10px';
-  line.style.justifyContent = 'space-around';
-
-  const instancia = document.createElement('input');
-  instancia.required = true;
-  instancia.placeholder = 'Instância';
-  instancia.classList.add('input');
-  instancia.id = 'instancia';
-
-  const axioma = document.createElement('input');
-  axioma.required = true;
-  axioma.placeholder = 'Axioma';
-  axioma.classList.add('input');
-  axioma.id = 'axioma';
-
-  const substituicao = document.createElement('input');
-  substituicao.required = true;
-  substituicao.placeholder = 'Substituição';
-  substituicao.classList.add('input');
-  substituicao.id = 'sub';
-
-  const excluir = document.createElement('img');
-  excluir.classList.add('excluir');
-  excluir.setAttribute('src', './assets/x-square.svg');
-  excluir.style.cursor = 'pointer';
-
-  excluir.addEventListener('click', () => {
-    if (confirm('Excluir linha?')) formula.removeChild(line);
-    formula.classList.remove('errado');
-    formula.classList.remove('correto');
-    result.textContent = '';
-  });
-
-  line.appendChild(instancia);
-  line.appendChild(axioma);
-  line.appendChild(substituicao);
-  line.appendChild(excluir);
-
-  formula.appendChild(line);
-}
-
 function formatarString(string) {
   return string.replaceAll(' ', '').toLowerCase();
 }
 
-function mostrarResultador(resultado) {
-  const formula = document.querySelector('#formula');
-
-  const result = document.querySelector('#resultado');
-  result.textContent = resultado ? 'Correto' : 'Errado';
-
-  if (resultado) {
-    formula.classList.remove('errado');
-    formula.classList.add('correto');
-  } else {
-    formula.classList.remove('correto');
-    formula.classList.add('errado');
-  }
-}
-
-const addLineBtn = document.querySelector('#lineBtn');
-addLineBtn.addEventListener('click', addLine);
-
-const formula = document.querySelector('#formula');
-formula.addEventListener('submit', (e) => {
-  e.preventDefault();
-  mostrarResultador(verificarFormulas());
-});
+module.exports = verificarFormulas;
