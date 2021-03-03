@@ -25,7 +25,6 @@ function addLine() {
   axioma.id = 'axioma';
 
   const substituicao = document.createElement('input');
-  substituicao.required = true;
   substituicao.placeholder = 'Substituição';
   substituicao.classList.add('input');
   substituicao.id = 'sub';

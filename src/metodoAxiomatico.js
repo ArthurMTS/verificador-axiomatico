@@ -4,9 +4,9 @@ const axiomas = {
   a3: '(p>(q>(p&q)))',
   a4: '((p&q)>p)',
   a5: '((p&q)>q)',
-  a6: '(p>(pvq))',
-  a7: '(q>(pvq))',
-  a8: '((p>r)>((q>r)>((pvq)>r)))',
+  a6: '(p>(p|q))',
+  a7: '(q>(p|q))',
+  a8: '((p>r)>((q>r)>((p|q)>r)))',
   a9: '((p>q)>((p>¬q)>¬p))',
   a10: '(¬¬p>p)',
 };
@@ -45,7 +45,6 @@ function verificarFormulas() {
         segundoElemento = formatarString(segundoElemento);
       
       } catch(err) {
-        console.log(err);
         return false;
       }
 
@@ -59,17 +58,24 @@ function verificarFormulas() {
         return false;
       }
 
-    } else {
-      const axiomaInstanciado = instanciarAxioma(axioma, substituicao);
+    } else if (axioma === 'hip') {
+      continue;
 
-      if (!corretudeFormula(axiomaInstanciado)) return false;
+    } else {
+      try {
+        const axiomaInstanciado = instanciarAxioma(axioma, substituicao);
+
+        if (!corretudeFormula(axiomaInstanciado)) return false;
       
-      if(instancia !== axiomaInstanciado) {
-        alert(`Instânciação do axioma [ ${axioma} ] com a substituição [ ${substituicao} ] resultou em [ ${axiomaInstanciado} ], que é diferente de [ ${instancia} ] passado.`);
-        console.log(false);
+        if(instancia !== axiomaInstanciado) {
+          alert(`Instânciação do axioma [ ${axioma} ] com a substituição [ ${substituicao} ] resultou em [ ${axiomaInstanciado} ], que é diferente de [ ${instancia} ] passado.`);
+          console.log(false);
+          return false;
+        }
+      } catch(err) {
         return false;
       }
-    }
+    } 
   }
   console.log(true);
   return true;
@@ -90,7 +96,7 @@ function corretudeFormula(formula) {
         if (next === ')' ||
             next === '>' ||
             next === '&' ||
-            next === 'v') return false;
+            next === '|') return false;
         break;
       case ')':
         parenteses--;
@@ -101,15 +107,16 @@ function corretudeFormula(formula) {
         break;
       case '>':
       case '&':
-      case 'v':
+      case '|':
         if (next === ')' ||
             next === '>' ||
             next === '&' ||
-            next === 'v') return false;
+            next === '|') return false;
         break;
       default:
         if (elementos[i].charCodeAt(0) < 97 ||
             elementos[i].charCodeAt(0) > 122) return false; 
+        else if (i === elementos.length - 1) break;
         else if (next === '(' ||
             next.charCodeAt(0) >= 97 &&
             next.charCodeAt(0) <= 122) return false;
@@ -136,7 +143,6 @@ function instanciarAxioma(axioma, substituicao) {
 
     return axioma;
   } catch (err) {
-    console.log(err);
     return false;
   }
 }
